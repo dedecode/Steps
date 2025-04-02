@@ -20,7 +20,7 @@ public class Objetivo {
     private LocalDateTime createdAt;
 
     @Column(nullable = false)
-    private LocalDate deadLine;
+    private LocalDate deadline;
 
     @Column(nullable = true)
     private LocalDate finishedAt;
@@ -49,12 +49,12 @@ public class Objetivo {
         this.createdAt = createdAt;
     }
 
-    public LocalDate getDeadLine() {
-        return deadLine;
+    public LocalDate getDeadline() {
+        return deadline;
     }
 
-    public void setDeadLine(LocalDate deadLine) {
-        this.deadLine = deadLine;
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
     }
 
     public LocalDate getFinishedAt() {

@@ -8,6 +8,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.com.dedecode.steps.repositories.ObjetivoRepository;
 import br.com.dedecode.steps.models.Objetivo;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class ObjetivoController {
@@ -31,7 +34,13 @@ public class ObjetivoController {
         return new ModelAndView("objetivo/form", Map.of("objetivo", new Objetivo()));
     }
   
-
+    @PostMapping("/create")
+    public String create(Objetivo objetivo) {
+        objetivoRepository.save(objetivo);
+        
+        return "redirect:/";
+    }
+    
 
 }
 
