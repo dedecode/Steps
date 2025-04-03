@@ -60,8 +60,24 @@ public class ObjetivoController {
         objetivoRepository.save(objetivo);
         return "redirect:/";
     }
-        
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView delete(@PathVariable Long id){
+        var objetivo = objetivoRepository.findById(id);
+        if (objetivo.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return new ModelAndView("objetivo/delete", Map.of("objetivo", objetivo.get()));
     }
+
+    @PostMapping("/delete/{id}")
+    public String delete(Objetivo objetivo){
+        objetivoRepository.delete(objetivo);;
+        return "redirect:/";
+    }
+
+
+}
     
 
     

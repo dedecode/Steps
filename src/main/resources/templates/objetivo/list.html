@@ -42,7 +42,9 @@
                       th:href="@{/edit/{id}(id=${objetivo.id})}" 
                       class="btn btn-sm btn-secondary">Editar</a>
 
-                    <a href="" class="btn btn-sm btn-danger">Excluir</a>
+                    <a 
+                      th:href="@{/delete/{id}(id=${objetivo.id})}" 
+                      class="btn btn-sm btn-danger">Excluir</a>
                 </td>
               </tr>
             </tbody>
