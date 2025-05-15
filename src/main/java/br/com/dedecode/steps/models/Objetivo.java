@@ -1,13 +1,21 @@
 package br.com.dedecode.steps.models;
 
-import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Objetivo {
@@ -16,12 +24,16 @@ public class Objetivo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(min=3, max=100)
     @Column(length = 100, nullable = false)
     private String title;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @FutureOrPresent
+    @NotNull
     @Column(nullable = false)
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate deadline;
@@ -67,6 +79,10 @@ public class Objetivo {
 
     public void setFinishedAt(LocalDate finishedAt) {
         this.finishedAt = finishedAt;
+    }
+
+    public void markAsFinished() {
+        this.finishedAt = LocalDate.now();
     }
 
     @Override

@@ -2,18 +2,19 @@ package br.com.dedecode.steps.controllers;
 
 import java.util.Map;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.com.dedecode.steps.repositories.ObjetivoRepository;
 import br.com.dedecode.steps.models.Objetivo;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.server.ResponseStatusException;
+import br.com.dedecode.steps.repositories.ObjetivoRepository;
+import jakarta.validation.Valid;
 
 
 
@@ -30,7 +31,7 @@ public class ObjetivoController {
     public ModelAndView list(){
         return new ModelAndView(
             "objetivo/list",
-            Map.of("objetivos", objetivoRepository.findAll())
+            Map.of("objetivos", objetivoRepository.findAll(Sort.by("deadline")))
         );
     }
     
@@ -40,7 +41,10 @@ public class ObjetivoController {
     }
   
     @PostMapping("/create")
-    public String create(Objetivo objetivo) {
+    public String create(@Valid Objetivo objetivo, BindingResult result) {
+        if(result.hasErrors()){
+            return "objetivo/form";
+        }
         objetivoRepository.save(objetivo);
         
         return "redirect:/";
@@ -56,8 +60,12 @@ public class ObjetivoController {
     }
     
     @PostMapping("/edit/{id}")
-    public String edit(@PathVariable Long id, Objetivo objetivo){
+    public String edit(@Valid Objetivo objetivo, BindingResult result){
+        if(result.hasErrors()){
+            return "objetivo/form";
+        }
         objetivoRepository.save(objetivo);
+        
         return "redirect:/";
     }
 
@@ -76,6 +84,18 @@ public class ObjetivoController {
         return "redirect:/";
     }
 
+    @PostMapping("/finish/{id}")
+    public String finish(@PathVariable Long id) {
+        var optionalObjetivo = objetivoRepository.findById(id);
+        if (optionalObjetivo.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        var objetivo = optionalObjetivo.get();
+        objetivo.markAsFinished();
+        objetivoRepository.save(objetivo);
+        return "redirect:/";
+    }
+    
 
 }
     
