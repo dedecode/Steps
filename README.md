@@ -1,6 +1,6 @@
 # Gerenciamento de Objetivos com Spring Boot
 
-Este é um projeto web simples desenvolvido com **Spring Boot** para gerenciar objetivos pessoais. A aplicação permite que os usuários criem, editem, acompanhem e excluam seus objetivos. Este repositório está em desenvolvimento, então algumas funcionalidades não foram totalmente implementadas ou testadas.
+Este é um projeto web simples desenvolvido com **Spring Boot** para gerenciar objetivos pessoais. A aplicação permite que os usuários criem, editem, acompanhem e excluam seus objetivos.
 
 ## Funcionalidades
 
